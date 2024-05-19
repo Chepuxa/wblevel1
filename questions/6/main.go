@@ -1,0 +1,16 @@
+package main
+/*
+Вопрос: Есть ли в Go перегрузка методов или операторов?
+
+Ответ:
+Нет
+Из Go FAQ:
+Method dispatch is simplified if it doesn't need to do type matching as well.
+Experience with other languages told us that having a variety of methods with the same name but different signatures was occasionally useful but that it could also be confusing and fragile in practice.
+Matching only by name and requiring consistency in the types was a major simplifying decision in Go's type system.
+
+Regarding operator overloading, it seems more a convenience than an absolute requirement. Again, things are simpler without it. "
+*/
+func main() {
+
+}
