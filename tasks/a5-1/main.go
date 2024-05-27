@@ -16,11 +16,10 @@ func main() {
 	fmt.Scanf("%d", &timer)
 
 	var wg sync.WaitGroup
-	wg.Add(1)
 
-	in := make(chan int)
+	ch := make(chan int)
 
-	go func() {
+	go func(in chan<- int) {
 		//По окончанию горутины закрываем канал
 		defer close(in)
 
@@ -30,9 +29,10 @@ func main() {
 			in <- i
 			time.Sleep(time.Second)
 		}
-	}()
+	}(ch)
 
-	go func() {
+	wg.Add(1)
+	go func(in <-chan int) {
 		//По окончаинаю горутины сокращаем WaitGroup
 		defer wg.Done()
 		
@@ -40,7 +40,7 @@ func main() {
 		for v := range in {
 			fmt.Printf("Got %d\n", v)
 		}
-	}()
+	}(ch)
 
 	wg.Wait()
 }

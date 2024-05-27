@@ -22,8 +22,7 @@ func unique(s string) bool {
 	m := make(map[rune]struct{})
 	for _, v := range s {
 		v = unicode.ToLower(v)
-		_, ok := m[v]
-		if ok {
+		if _, ok := m[v]; ok {
 			return false
 		}
 		m[v] = struct{}{}

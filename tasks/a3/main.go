@@ -1,19 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+	"sync/atomic"
+)
 
 //Дана последовательность чисел: 2,4,6,8,10. Найти сумму их квадратов(22+32+42….) с использованием конкурентных вычислений.
 func main() {
-	in := []int{2, 4, 6, 8, 10}
-	out := make(chan int)
-    go func() {
-		sum := 0
-        for _, n := range in {
-            sum += n * n
-        }
-		out <- sum
-        close(out)
-    }()
+    var ai atomic.Int32
+    var wg sync.WaitGroup
+	in := []int32{2, 4, 6, 8, 10}
     
-	fmt.Println(<-out)
+    for _, v := range in {
+        wg.Add(1)
+
+        go func(i int32) {
+            ai.Add(i * i)
+            wg.Done()
+        }(v)
+    }
+
+    wg.Wait()
+
+	fmt.Println(ai.Load())
 }

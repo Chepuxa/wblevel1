@@ -8,7 +8,7 @@ import (
 
 //Реализовать конкурентную запись данных в map.
 type Map struct {
-	mx sync.Mutex
+	mx sync.RWMutex
 	m  map[string]interface{}
 }
 
@@ -19,8 +19,8 @@ func NewMap() *Map {
 }
 
 func (c *Map) Get(key string) (interface{}, bool) {
-	c.mx.Lock()
-	defer c.mx.Unlock()
+	c.mx.RLock()
+	defer c.mx.RUnlock()
 	val, ok := c.m[key]
 	return val, ok
 }
@@ -29,10 +29,6 @@ func (c *Map) Put(key string, value interface{}) {
 	c.mx.Lock()
 	defer c.mx.Unlock()
 	c.m[key] = value
-}
-
-func (c *Map) Size() int {
-	return len(c.m)
 }
 
 func (c *Map) Delete(key string) {
@@ -60,7 +56,7 @@ func main() {
 		}
 	}()
 
-	time.Sleep(2 * time.Second)
+	time.Sleep(time.Second)
 	quit = true
 	fmt.Println(m.Get("a"))
 	fmt.Println(m.Get("b"))

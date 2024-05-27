@@ -11,20 +11,16 @@ package main
 5. Через определение неинициализированной переменной
 */
 func main() {
-	s := [1]interface{}{}
 	n := [2]int{1, 2}
 
-	s[0] = make([]int, 0)
-	s[0] = []int{}
-	s[0] = n[:]
-	s[0] = new([]int)
-	var se []int
-	s[0] = se
+	_ = make([]int, 0)
+	_ = []int{}
+	_ = n[:]
+	_ = new([]int)
+	var _ []int
 
-
-	s[0] = make(map[string]int)
-	s[0] = map[string]int{}
-	s[0] = new(map[string]int)
-	var md map[string]int
-	s[0] = md
+	_ = make(map[string]int)
+	_ = map[string]int{"a": 1, "b": 2, "c": 3}
+	_ = new(map[string]int)
+	var _ map[string]int
 }

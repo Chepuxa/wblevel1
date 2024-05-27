@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//Реализовать собственную функцию sleep.
 func main() {
 	Sleep(5)
 	fmt.Println("Done")
